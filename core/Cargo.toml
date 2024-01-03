@@ -176,6 +176,7 @@ services-oss = [
 services-pcloud = []
 services-persy = ["dep:persy", "internal-tokio-rt"]
 services-postgresql = ["dep:tokio-postgres", "dep:bb8", "dep:bb8-postgres"]
+services-rados = ["dep:ceph", "dep:libc"]
 services-redb = ["dep:redb", "internal-tokio-rt"]
 services-redis = ["dep:redis", "redis?/tokio-rustls-comp"]
 services-redis-native-tls = ["services-redis", "redis?/tokio-native-tls-comp"]
@@ -285,6 +286,7 @@ cacache = { version = "13.0", default-features = false, features = [
   "tokio-runtime",
   "mmap",
 ], optional = true }
+ceph = { version = "3.2.5", optional = true }
 # for services-dashmap
 dashmap = { version = "5.4", optional = true }
 # for services-etcd
@@ -299,6 +301,7 @@ hdrs = { version = "0.3.2", optional = true, features = ["async_file"] }
 hmac = { version = "0.12.1", optional = true }
 # for services-libsql
 hrana-client-proto = { version = "0.2.1", optional = true }
+libc = { version = "0.2.151", optional = true }
 # for services-mini-moka
 mini-moka = { version = "0.10", optional = true }
 # for services-moka

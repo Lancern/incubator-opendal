@@ -178,6 +178,11 @@ mod persy;
 #[cfg(feature = "services-persy")]
 pub use self::persy::Persy;
 
+#[cfg(feature = "services-rados")]
+mod rados;
+#[cfg(feature = "services-rados")]
+pub use rados::Rados;
+
 #[cfg(feature = "services-redis")]
 mod redis;
 #[cfg(feature = "services-redis")]

@@ -117,6 +117,8 @@ pub enum Scheme {
     Oss,
     /// [persy][crate::services::Persy]: persy backend support.
     Persy,
+    /// [rados][crate::services::Rados]: Ceph RADOS services.
+    Rados,
     /// [redis][crate::services::Redis]: Redis services
     Redis,
     /// [postgresql][crate::services::Postgresql]: Postgresql services
@@ -444,6 +446,7 @@ impl From<Scheme> for &'static str {
             Scheme::Gdrive => "gdrive",
             Scheme::Github => "github",
             Scheme::Dropbox => "dropbox",
+            Scheme::Rados => "rados",
             Scheme::Redis => "redis",
             Scheme::Rocksdb => "rocksdb",
             Scheme::S3 => "s3",
