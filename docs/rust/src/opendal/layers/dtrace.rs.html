@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `core/src/layers/dtrace.rs`."><title>dtrace.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-b1a3e7f8283b8434.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opendal" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0-nightly (5bd5d214e 2024-01-25)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/layers/dtrace.rs`."><title>dtrace.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-bf502f66ec635d5d.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="opendal" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.0-nightly (e51e98dde 2023-12-31)" data-channel="nightly" data-search-js="search-c17e98913a53b3b7.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-0b2e2def73e61cbe.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
             <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
     <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../opendal/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
@@ -519,6 +519,9 @@
 <a href="#517" id="517">517</a>
 <a href="#518" id="518">518</a>
 <a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
 </pre></div><pre class="rust"><code><span class="comment">// Licensed to the Apache Software Foundation (ASF) under one
 // or more contributor license agreements.  See the NOTICE file
 // distributed with this work for additional information
@@ -536,18 +539,20 @@
 // specific language governing permissions and limitations
 // under the License.
 
-</span><span class="kw">use </span><span class="kw">crate</span>::raw::Accessor;
-<span class="kw">use </span><span class="kw">crate</span>::raw::<span class="kw-2">*</span>;
-<span class="kw">use crate</span>::<span class="kw-2">*</span>;
-<span class="kw">use </span>async_trait::async_trait;
-<span class="kw">use </span>bytes::Bytes;
-<span class="kw">use </span>probe::probe_lazy;
-<span class="kw">use </span>std::ffi::CString;
+</span><span class="kw">use </span>std::ffi::CString;
 <span class="kw">use </span>std::fmt::Debug;
 <span class="kw">use </span>std::fmt::Formatter;
 <span class="kw">use </span>std::io;
 <span class="kw">use </span>std::task::Context;
 <span class="kw">use </span>std::task::Poll;
+
+<span class="kw">use </span>async_trait::async_trait;
+<span class="kw">use </span>bytes::Bytes;
+<span class="kw">use </span>probe::probe_lazy;
+
+<span class="kw">use </span><span class="kw">crate</span>::raw::Accessor;
+<span class="kw">use </span><span class="kw">crate</span>::raw::<span class="kw-2">*</span>;
+<span class="kw">use crate</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Support User Statically-Defined Tracing(aka USDT) on Linux
 ///
@@ -634,11 +639,10 @@
 ///
 /// Example:
 /// ```
-///
 /// use anyhow::Result;
+/// use opendal::layers::DTraceLayer;
 /// use opendal::services::Fs;
 /// use opendal::Operator;
-/// use opendal::layers::DTraceLayer;
 ///
 /// #[tokio::main]
 /// async fn main() -&gt; Result&lt;()&gt; {
@@ -647,10 +651,12 @@
 ///     builder.root("/tmp");
 ///
 ///     // `Accessor` provides the low level APIs, we will use `Operator` normally.
-///     let op: Operator = Operator::new(builder)?.layer(DtraceLayer::default()).finish();
-///     
-///     let path="/tmp/test.txt";
-///     for _ in 1..100000{
+///     let op: Operator = Operator::new(builder)?
+///         .layer(DtraceLayer::default())
+///         .finish();
+///
+///     let path = "/tmp/test.txt";
+///     for _ in 1..100000 {
 ///         let bs = vec![0; 64 * 1024 * 1024];
 ///         op.write(path, bs).await?;
 ///         op.read(path).await?;
@@ -712,10 +718,10 @@
 <span class="attr">#[async_trait]
 </span><span class="kw">impl</span>&lt;A: Accessor&gt; LayeredAccessor <span class="kw">for </span>DTraceAccessor&lt;A&gt; {
     <span class="kw">type </span>Inner = A;
-    <span class="kw">type </span>Reader = DtraceLayerWarpper&lt;A::Reader&gt;;
-    <span class="kw">type </span>BlockingReader = DtraceLayerWarpper&lt;A::BlockingReader&gt;;
-    <span class="kw">type </span>Writer = DtraceLayerWarpper&lt;A::Writer&gt;;
-    <span class="kw">type </span>BlockingWriter = DtraceLayerWarpper&lt;A::BlockingWriter&gt;;
+    <span class="kw">type </span>Reader = DtraceLayerWrapper&lt;A::Reader&gt;;
+    <span class="kw">type </span>BlockingReader = DtraceLayerWrapper&lt;A::BlockingReader&gt;;
+    <span class="kw">type </span>Writer = DtraceLayerWrapper&lt;A::Writer&gt;;
+    <span class="kw">type </span>BlockingWriter = DtraceLayerWrapper&lt;A::BlockingWriter&gt;;
     <span class="kw">type </span>Lister = A::Lister;
     <span class="kw">type </span>BlockingLister = A::BlockingLister;
 
@@ -738,7 +744,7 @@
             </span>.inner
             .read(path, args)
             .<span class="kw">await
-            </span>.map(|(rp, r)| (rp, DtraceLayerWarpper::new(r, <span class="kw-2">&amp;</span>path.to_string())));
+            </span>.map(|(rp, r)| (rp, DtraceLayerWrapper::new(r, <span class="kw-2">&amp;</span>path.to_string())));
         <span class="macro">probe_lazy!</span>(opendal, read_end, c_path.as_ptr());
         result
     }
@@ -750,7 +756,7 @@
             </span>.inner
             .write(path, args)
             .<span class="kw">await
-            </span>.map(|(rp, r)| (rp, DtraceLayerWarpper::new(r, <span class="kw-2">&amp;</span>path.to_string())));
+            </span>.map(|(rp, r)| (rp, DtraceLayerWrapper::new(r, <span class="kw-2">&amp;</span>path.to_string())));
 
         <span class="macro">probe_lazy!</span>(opendal, write_end, c_path.as_ptr());
         result
@@ -806,7 +812,7 @@
         <span class="kw">let </span>result = <span class="self">self
             </span>.inner
             .blocking_read(path, args)
-            .map(|(rp, r)| (rp, DtraceLayerWarpper::new(r, <span class="kw-2">&amp;</span>path.to_string())));
+            .map(|(rp, r)| (rp, DtraceLayerWrapper::new(r, <span class="kw-2">&amp;</span>path.to_string())));
         <span class="macro">probe_lazy!</span>(opendal, blocking_read_end, c_path.as_ptr());
         result
     }
@@ -817,7 +823,7 @@
         <span class="kw">let </span>result = <span class="self">self
             </span>.inner
             .blocking_write(path, args)
-            .map(|(rp, r)| (rp, DtraceLayerWarpper::new(r, <span class="kw-2">&amp;</span>path.to_string())));
+            .map(|(rp, r)| (rp, DtraceLayerWrapper::new(r, <span class="kw-2">&amp;</span>path.to_string())));
         <span class="macro">probe_lazy!</span>(opendal, blocking_write_end, c_path.as_ptr());
         result
     }
@@ -847,12 +853,12 @@
     }
 }
 
-<span class="kw">pub struct </span>DtraceLayerWarpper&lt;R&gt; {
+<span class="kw">pub struct </span>DtraceLayerWrapper&lt;R&gt; {
     inner: R,
     path: String,
 }
 
-<span class="kw">impl</span>&lt;R&gt; DtraceLayerWarpper&lt;R&gt; {
+<span class="kw">impl</span>&lt;R&gt; DtraceLayerWrapper&lt;R&gt; {
     <span class="kw">pub fn </span>new(inner: R, path: <span class="kw-2">&amp;</span>String) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             inner,
@@ -861,7 +867,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;R: oio::Read&gt; oio::Read <span class="kw">for </span>DtraceLayerWarpper&lt;R&gt; {
+<span class="kw">impl</span>&lt;R: oio::Read&gt; oio::Read <span class="kw">for </span>DtraceLayerWrapper&lt;R&gt; {
     <span class="kw">fn </span>poll_read(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;, buf: <span class="kw-2">&amp;mut </span>[u8]) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;usize&gt;&gt; {
         <span class="kw">let </span>c_path = CString::new(<span class="self">self</span>.path.clone()).unwrap();
         <span class="macro">probe_lazy!</span>(opendal, reader_read_start, c_path.as_ptr());
@@ -911,7 +917,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;R: oio::BlockingRead&gt; oio::BlockingRead <span class="kw">for </span>DtraceLayerWarpper&lt;R&gt; {
+<span class="kw">impl</span>&lt;R: oio::BlockingRead&gt; oio::BlockingRead <span class="kw">for </span>DtraceLayerWrapper&lt;R&gt; {
     <span class="kw">fn </span>read(<span class="kw-2">&amp;mut </span><span class="self">self</span>, buf: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;usize&gt; {
         <span class="kw">let </span>c_path = CString::new(<span class="self">self</span>.path.clone()).unwrap();
         <span class="macro">probe_lazy!</span>(opendal, blocking_reader_read_start, c_path.as_ptr());
@@ -963,7 +969,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;R: oio::Write&gt; oio::Write <span class="kw">for </span>DtraceLayerWarpper&lt;R&gt; {
+<span class="kw">impl</span>&lt;R: oio::Write&gt; oio::Write <span class="kw">for </span>DtraceLayerWrapper&lt;R&gt; {
     <span class="kw">fn </span>poll_write(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cx: <span class="kw-2">&amp;mut </span>Context&lt;<span class="lifetime">'_</span>&gt;, bs: <span class="kw-2">&amp;</span><span class="kw">dyn </span>oio::WriteBuf) -&gt; Poll&lt;<span class="prelude-ty">Result</span>&lt;usize&gt;&gt; {
         <span class="kw">let </span>c_path = CString::new(<span class="self">self</span>.path.clone()).unwrap();
         <span class="macro">probe_lazy!</span>(opendal, writer_write_start, c_path.as_ptr());
@@ -1008,7 +1014,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;R: oio::BlockingWrite&gt; oio::BlockingWrite <span class="kw">for </span>DtraceLayerWarpper&lt;R&gt; {
+<span class="kw">impl</span>&lt;R: oio::BlockingWrite&gt; oio::BlockingWrite <span class="kw">for </span>DtraceLayerWrapper&lt;R&gt; {
     <span class="kw">fn </span>write(<span class="kw-2">&amp;mut </span><span class="self">self</span>, bs: <span class="kw-2">&amp;</span><span class="kw">dyn </span>oio::WriteBuf) -&gt; <span class="prelude-ty">Result</span>&lt;usize&gt; {
         <span class="kw">let </span>c_path = CString::new(<span class="self">self</span>.path.clone()).unwrap();
         <span class="macro">probe_lazy!</span>(opendal, blocking_writer_write_start, c_path.as_ptr());
